@@ -1,6 +1,6 @@
 import pytest
 from app import app
-
+# ADICIONAMOS O TESTE 1 E A ROTA E O TESTE 2 SEM ROTA
 @pytest.fixture
 def client():
     app.config["TESTING"] = True
