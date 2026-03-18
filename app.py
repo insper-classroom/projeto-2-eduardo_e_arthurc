@@ -22,5 +22,9 @@ def atualizar_imovel(id):
     dados["id"] = id
     return jsonify(dados), 200
 
+@app.route("/imoveis/<int:id>", methods=["DELETE"])
+def deletar_imovel(id):
+    return "", 204
+
 if __name__ == "__main__":
     app.run(debug=True)
