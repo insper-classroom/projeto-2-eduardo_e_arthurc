@@ -32,3 +32,16 @@ def test_adicionar_imovel(client):
 
     assert response.status_code == 201
     assert response.get_json()["id"] == 1
+
+def test_atualizar_imovel(client):
+    dados = {
+        "tipo": "apartamento",
+        "cidade": "Rio"
+    }
+
+    response = client.put("/imoveis/1", json=dados)
+
+    assert response.status_code == 200
+    assert response.get_json()["tipo"] == "apartamento"
+    assert response.get_json()["cidade"] == "Rio"
+
