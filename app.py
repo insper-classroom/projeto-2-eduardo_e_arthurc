@@ -4,6 +4,11 @@ app = Flask(__name__)
 
 @app.route("/imoveis", methods=["GET"])
 def listar_imoveis():
+    tipo = request.args.get("tipo")
+    
+    if tipo:
+        return jsonify([{"tipo": tipo}]), 200
+
     return jsonify([]), 200
 
 @app.route("/imoveis/<int:id>", methods=["GET"])
@@ -25,6 +30,7 @@ def atualizar_imovel(id):
 @app.route("/imoveis/<int:id>", methods=["DELETE"])
 def deletar_imovel(id):
     return "", 204
+
 
 if __name__ == "__main__":
     app.run(debug=True)
