@@ -2,18 +2,22 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
+
 @app.route("/imoveis", methods=["GET"])
 def listar_imoveis():
     tipo = request.args.get("tipo")
     cidade = request.args.get("cidade")
 
+    if cidade and tipo:
+        return jsonify([{"cidade": cidade, "tipo": tipo}]), 200
+
     if cidade:
         return jsonify([{"cidade": cidade}]), 200
-    
+
     if tipo:
         return jsonify([{"tipo": tipo}]), 200
-
     return jsonify([]), 200
+
 
 @app.route("/imoveis/<int:id>", methods=["GET"])
 def buscar_imovel_por_id(id):
@@ -25,11 +29,13 @@ def adicionar_imovel():
     imovel = request.get_json()
     return jsonify(imovel), 201
 
+
 @app.route("/imoveis/<int:id>", methods=["PUT"])
 def atualizar_imovel(id):
     dados = request.get_json()
     dados["id"] = id
     return jsonify(dados), 200
+
 
 @app.route("/imoveis/<int:id>", methods=["DELETE"])
 def deletar_imovel(id):
