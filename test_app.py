@@ -52,10 +52,20 @@ def test_deletar_imovel(client):
 
     assert response.status_code == 204
 
-
+# Filtragem de imóveis 
 def test_filtrar_imoveis_por_tipo(client):
     response = client.get("/imoveis?tipo=casa")
 
     assert response.status_code == 200
     assert isinstance(response.get_json(), list)
+
+
+def test_filtrar_imoveis_por_cidade(client):
+    response = client.get("/imoveis?cidade=São Paulo")
+
+    assert response.status_code == 200
+    data = response.get_json()
+
+    assert isinstance(data, list)
+    assert data[0]["cidade"] == "São Paulo"
 
