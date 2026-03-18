@@ -16,5 +16,11 @@ def adicionar_imovel():
     imovel = request.get_json()
     return jsonify(imovel), 201
 
+@app.route("/imoveis/<int:id>", methods=["PUT"])
+def atualizar_imovel(id):
+    dados = request.get_json()
+    dados["id"] = id
+    return jsonify(dados), 200
+
 if __name__ == "__main__":
     app.run(debug=True)
