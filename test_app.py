@@ -33,6 +33,7 @@ def test_adicionar_imovel(client):
     assert response.status_code == 201
     assert response.get_json()["id"] == 1
 
+
 def test_atualizar_imovel(client):
     dados = {
         "tipo": "apartamento",
@@ -50,4 +51,11 @@ def test_deletar_imovel(client):
     response = client.delete("/imoveis/1")
 
     assert response.status_code == 204
+
+
+def test_filtrar_imoveis_por_tipo(client):
+    response = client.get("/imoveis?tipo=casa")
+
+    assert response.status_code == 200
+    assert isinstance(response.get_json(), list)
 
