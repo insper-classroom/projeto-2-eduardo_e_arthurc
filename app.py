@@ -5,6 +5,10 @@ app = Flask(__name__)
 @app.route("/imoveis", methods=["GET"])
 def listar_imoveis():
     tipo = request.args.get("tipo")
+    cidade = request.args.get("cidade")
+
+    if cidade:
+        return jsonify([{"cidade": cidade}]), 200
     
     if tipo:
         return jsonify([{"tipo": tipo}]), 200
