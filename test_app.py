@@ -45,3 +45,9 @@ def test_atualizar_imovel(client):
     assert response.get_json()["tipo"] == "apartamento"
     assert response.get_json()["cidade"] == "Rio"
 
+
+def test_deletar_imovel(client):
+    response = client.delete("/imoveis/1")
+
+    assert response.status_code == 204
+
