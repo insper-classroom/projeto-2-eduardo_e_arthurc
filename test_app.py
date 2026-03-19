@@ -23,34 +23,51 @@ def test_buscar_imovel_por_id(client):
 
 def test_adicionar_imovel(client):
     novo_imovel = {
-        "id": 1,
+        "logradouro": "Rua A",
+        "tipo_logradouro": "Rua",
+        "bairro": "Centro",
+        "cidade": "São Paulo",
+        "cep": "00000",
         "tipo": "casa",
-        "cidade": "São Paulo"
+        "valor": 100000,
+        "data_aquisicao": "2024-01-01"
     }
 
     response = client.post("/imoveis", json=novo_imovel)
 
     assert response.status_code == 201
-    assert response.get_json()["id"] == 1
+    data = response.get_json()
+
+    assert data["tipo"] == "casa"
+    assert data["cidade"] == "São Paulo"
 
 
 def test_atualizar_imovel(client):
     dados = {
+        "logradouro": "Rua B",
+        "tipo_logradouro": "Rua",
+        "bairro": "Centro",
+        "cidade": "Rio",
+        "cep": "11111",
         "tipo": "apartamento",
-        "cidade": "Rio"
+        "valor": 200000,
+        "data_aquisicao": "2025-01-01"
     }
 
     response = client.put("/imoveis/1", json=dados)
 
     assert response.status_code == 200
-    assert response.get_json()["tipo"] == "apartamento"
-    assert response.get_json()["cidade"] == "Rio"
+    data = response.get_json()
+
+    assert data["tipo"] == "apartamento"
+    assert data["cidade"] == "Rio"
 
 
 def test_deletar_imovel(client):
     response = client.delete("/imoveis/1")
 
     assert response.status_code == 204
+
 
 # Filtragem de imóveis 
 def test_filtrar_imoveis_por_tipo(client):
@@ -60,7 +77,7 @@ def test_filtrar_imoveis_por_tipo(client):
     data = response.get_json()
 
     assert isinstance(data, list)
-    assert data[0]["tipo"] == "casa"
+    assert all(imovel["tipo"] == "casa" for imovel in data)
 
 
 def test_filtrar_imoveis_por_cidade(client):
@@ -70,5 +87,4 @@ def test_filtrar_imoveis_por_cidade(client):
     data = response.get_json()
 
     assert isinstance(data, list)
-    assert data[0]["cidade"] == "São Paulo"
-
+    assert all(imovel["cidade"] == "São Paulo" for imovel in data)
